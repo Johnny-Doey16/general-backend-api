@@ -2,7 +2,7 @@ import firebaseApp from "../config/firebase";
 // import { getStorage } from "firebase/storage";
 import "firebase/compat/storage";
 import Logger from "../services/logger";
-import sharp from "sharp";
+// import sharp from "sharp";
 
 class Bucket {
   private logger: Logger;
@@ -27,7 +27,7 @@ class Bucket {
       this.logger.log("info", `Uploading image with reference: ${ref}`);
       const imageRef = this.storageRef.child(ref);
   
-      const compressedImage = await sharp(file).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer();
+      const compressedImage = file;//await sharp(file).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer();
   
       const snapshot = await imageRef.child(`${new Date().getTime()}`).put(compressedImage, metadata);
       const downloadURL = await snapshot.ref.getDownloadURL();
