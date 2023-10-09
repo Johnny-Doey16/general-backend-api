@@ -11,8 +11,7 @@
         "resolveJsonModule": true
       },
     "include": [
-        "src/**/*.ts"
-// , "src/test/logger.test.js", "src/test/logger.test.js"    
+        "src/**/*.ts"  
     ],
     "exclude": [
         "node_modules"
