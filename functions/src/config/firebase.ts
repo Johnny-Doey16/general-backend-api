@@ -10,14 +10,14 @@ import firebase from "firebase/compat/app";
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDeHf_8h_jgHijXeHXl5JJTPew40Ul3dso",
-    authDomain: "kfoods-d1ea0.firebaseapp.com",
-    projectId: "kfoods-d1ea0",
-    storageBucket: "kfoods-d1ea0.appspot.com",
-    messagingSenderId: "411278206754",
-    appId: "1:411278206754:web:26227573132abea79a677b",
+    apiKey: "AIzaSyDPIJwFUJSxAak1rJsDS2brUAE2i-HqI2c",
+    authDomain: "zaramax-capital.firebaseapp.com",
+    projectId: "zaramax-capital",
+    storageBucket: "zaramax-capital.appspot.com",
+    messagingSenderId: "321849221177",
+    appId: "1:321849221177:web:d3aed469534cd79785ade8",
     measurementId: "G-CLS13TQW8E",
-    databaseURL: "https://kfoods-d1ea0-default-rtdb.firebaseio.com",
+    databaseURL: "https://zaramax-capital-default-rtdb.firebaseio.com",
 };
 
 // const firebaseApp = initializeApp(firebaseConfig);
