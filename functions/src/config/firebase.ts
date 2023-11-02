@@ -10,14 +10,14 @@ import firebase from "firebase/compat/app";
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDeHf_8h_jgHijXeHXl5JJTPew40Ul3dso",
-    authDomain: "kfoods-d1ea0.firebaseapp.com",
-    projectId: "kfoods-d1ea0",
-    storageBucket: "kfoods-d1ea0.appspot.com",
-    messagingSenderId: "411278206754",
-    appId: "1:411278206754:web:26227573132abea79a677b",
-    measurementId: "G-CLS13TQW8E",
-    databaseURL: "https://kfoods-d1ea0-default-rtdb.firebaseio.com",
+    apiKey: process.env.FB_API_KEY,
+    authDomain: process.env.FB_AUTH_DOMAIN,
+    projectId: process.env.FB_PROJECT_ID,
+    storageBucket: process.env.FB_STORAGE_BUCKET,
+    messagingSenderId: process.env.FB_MESSAGING_SENDER_ID,
+    appId: process.env.FB_APP_ID,
+    measurementId: process.env.FB_MEASUREMENT_ID,
+    databaseURL: process.env.FB_DB_URL,
 };
 
 // const firebaseApp = initializeApp(firebaseConfig);
