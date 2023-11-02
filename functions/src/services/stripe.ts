@@ -3,7 +3,7 @@ dotenv.config();
 // import Stripe from "stripe";
 
 // Setup Stripe
-const stripe = require("stripe")("sk_test_51KdHyaCMX0BonwrBNWapFZE9RcQyYXAoY9M0NSiRThW5yHL70juDvCLU8DgZ03GQIPPzNfU4DQ9xEPmQ4vf1Teef00HKAHFump"); //(process.env.STRIPE_PRIVATE_TEST_KEY)
+const stripe = require("stripe")(process.env.STRIPE_PRIVATE_TEST_KEY);
 // const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
 

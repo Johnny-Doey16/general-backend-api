@@ -27,12 +27,12 @@ class Server {
         controllers: this.initializeControllers(),
     });
     // import service account file (helps to know the firebase project details)
-    const serviceAccount = require("./config/permissions.json");
+    const serviceAccount = require("./etc/secrets/permissions.json");//config/permissions.json");
 
     // Intialize the firebase-admin project/account
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
-      databaseURL: "https://kfoods-d1ea0-default-rtdb.firebaseio.com",
+      databaseURL: process.env.FB_DB_URL,
     });
     
   }
