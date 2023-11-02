@@ -2,6 +2,7 @@ import firebaseApp from "../config/firebase";
 import { getFirestore, collection, getDocs, runTransaction,
   doc, setDoc,limit, query, where, updateDoc, deleteDoc} from 'firebase/firestore/lite';
 import Logger from "../services/logger";
+import { DB_TABLES } from "constants/variables";
 
 class DB {
   private logger: Logger;
@@ -199,6 +200,24 @@ class DB {
       this.logger.log("fatal", `Error occurred while subtracting ${amount} from ${column_name} with an id of ${id}, in table ${table}. Error: ${e.message}.`)
     }
   }
+
+  public async decreaseMultiple(table: string, prods: any[],): Promise<string[]> {
+    const results: string[] = [];
+
+    try {
+      for (let i = 0; i < prods.length; i++) {
+          const id = prods[i].id;
+          const qty = prods[i].qty;
+          const msg = await this.decrease(table, id, qty, "qty");
+          results.push(`ID: ${id}, Result: ${msg}`);
+      }
+
+      return results;
+    } catch (e) {
+        this.logger.log("fatal", `Error occurred while processing multiple decreases. Error: ${e.message}.`);
+        return results;
+    }
+}
 
 
   // public async findAllBy(table: string, filter?: { column: string; value: any }[], length?: number): Promise<any> {

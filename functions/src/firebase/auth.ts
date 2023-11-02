@@ -79,7 +79,7 @@ class FirebaseAuth {
             const refreshToken = userDelegate['refreshToken'];
             const exp =  userDelegate['expirationTime'];
 
-            /*if (!user.emailVerified) {
+            if (!user.emailVerified) {
                 await this.sendVerificationEmail();
             } else {
                 // get user data from db
@@ -89,10 +89,6 @@ class FirebaseAuth {
             return user.emailVerified 
             ? res.status(200).json({message: "User logged in successfully", accessToken: accessToken, refreshToken: refreshToken, expiration: exp, user: userData}) 
             : res.status(201).json({message: "Please verify your account"});
-            */
-
-            return res.status(200).json({message: "User logged in successfully", uid: uid , accessToken: accessToken, refreshToken: refreshToken, expiration: exp, user: userData});
-
         } catch (error) {
             this.logger.log('error', `Error occurred while signing in user: ${error}`);
             return res.status(401).json({error: error.name, message: error.message});

@@ -112,7 +112,7 @@ class HomeController {
       // });
         
 
-        return res.status(200).json({message: "👍🏼Welcome to K-Foods "});
+        return res.status(200).json({message: "👍🏼Welcome to K-Foods " +process.env.STRIPE_PRIVATE_TEST_KEY +". DONE"});//process.env.STRIPE_PRIVATE_TEST_KEY
 
     }
 

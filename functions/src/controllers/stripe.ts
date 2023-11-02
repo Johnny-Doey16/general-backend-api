@@ -28,7 +28,7 @@ class StripeController {
             return res.status(422).json({errors: data.array()});
         }
         let amount = req.body.amount;
-        const {token, desc, fullName, prodIds, prodNames} = req.body;
+        const {token, desc, fullName, prods, prodNames} = req.body;
         // amount = parseFloat(amount);
         console.log("DATA for Stripe", req.body);
         
@@ -52,13 +52,14 @@ class StripeController {
             await new Order(new DB()).add({
                 fullName: fullName,
                 totalAmount: amount,
-                prodIds: prodIds,
-                prodNames: prodNames,
+                products: prods,
+                // prodIds: prodIds,
+                // prodNames: prodNames,
                 time: new Date().getTime(),
                 ...charge
             })
 
-            // ! Get admin token from db
+            // * Get admin token from db
             const data = await new DB().findById(DB_TABLES.USERS, "email", "admin@kfooods.com");
             console.log("USER", data);
             
@@ -69,8 +70,6 @@ class StripeController {
                     title: 'Order Completed',
                     body: `${fullName} has placed an order of ${amount} for ${prodNames}`,
                 },
-                // token: "cUX71zvKSJui5XnkIWsDxB:APA91bFD1dcmF51mZxlxHX3YvOtiI5CHeFd5QPCrj2snnvVcIZJFJafTRBBzmL058fPbCoaCYlLhGfH4gf5MagtkUs0OwxXl7B-QkBl5wi_ILyHI1XG-fvDPwY90XXtbGgE8PzAzcduc"
-                // token: "f7HwK01kS--gigjbewK1i0:APA91bFskfn38h--UyJUuXm1XkgXb7-tZ5EkfSEjTHCP9pRFZIoFl3c3V0WehW536NTulze8NNvBEkamftcgMFCFyvK-CTtOOrt2BuHDf3QRlK_KQcB9FvJxaFEW0NOAXaih-ILx0IHo", // Replace with the user's device token
                 token: data.fcmToken,
             };
 
@@ -83,9 +82,12 @@ class StripeController {
             .catch((error) => {
                 console.log('Error sending message:', error);
             });
+
+            // * Reduce qty of products
+            await new DB().decreaseMultiple(DB_TABLES.PRODUCTS, prods);
         }
         
-        // Send email to admin and the user with receipt
+        // * Send email to admin and the user with receipt
         
         return res.status(200).json(charge);
     }
