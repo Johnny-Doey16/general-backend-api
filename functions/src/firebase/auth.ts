@@ -49,12 +49,12 @@ class FirebaseAuth {
             await this.sendVerificationEmail();
 
             await admin.auth().setCustomUserClaims(uid, { role: "user" })
-            // .then(() => {
-            //     console.log('Role assigned successfully');
-            // })
-            // .catch((error) => {
-            //     console.error('Error assigning role:', error);
-            // });
+            .then(() => {
+                console.log('Role assigned successfully');
+            })
+            .catch((error) => {
+                console.error('Error assigning role:', error);
+            });
 
             console.log("User verification status: ", user.emailVerified);
 
