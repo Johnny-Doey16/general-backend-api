@@ -47,8 +47,7 @@ class Server {
             middlewares: this.initializeMiddlewares(),
             controllers: this.initializeControllers(),
         });
-        // const serviceAccount = require("../../etc/secrets/permissions.json");
-        const serviceAccount = require("./permissions.json");
+        const serviceAccount = require("../../etc/secrets/permissions.json");
         admin.initializeApp({
             credential: admin.credential.cert(serviceAccount),
             databaseURL: process.env.FB_DB_URL,

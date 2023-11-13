@@ -110,7 +110,7 @@ class DB {
     }
     findById(table, column, id) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.logger.log("info", `Attempting to retrieve Object with id, from table ${table}: ${id}`);
+            console.log(`Attempting to retrieve Object with id, from table ${table}: ${id}`);
             try {
                 const q = (0, lite_1.query)((0, lite_1.collection)(this.db, table), (0, lite_1.where)(column, "==", id));
                 const querySnapshot = yield (0, lite_1.getDocs)(q);
@@ -124,7 +124,7 @@ class DB {
                 }
             }
             catch (e) {
-                this.logger.log("fatal", `Error occurred while retrieving data with id: ${id}, from table ${table}. Error: ${e.message}.`);
+                console.log(`Error occurred while retrieving data with id: ${id}, from table ${table}. Error: ${e.message}.`);
                 return null;
             }
         });

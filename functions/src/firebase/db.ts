@@ -99,7 +99,8 @@ class DB {
 
   // TODO: Fix null issue
   public async findById(table: string, column: string, id: string): Promise<any> {
-    this.logger.log("info", `Attempting to retrieve Object with id, from table ${table}: ${id}`);
+    // this.logger.log("info", `Attempting to retrieve Object with id, from table ${table}: ${id}`);
+    console.log(`Attempting to retrieve Object with id, from table ${table}: ${id}`);
   
     try {
       const q = query(collection(this.db, table), where(column, "==", id));
@@ -113,7 +114,8 @@ class DB {
         return null;
       }
     } catch (e) {
-      this.logger.log("fatal", `Error occurred while retrieving data with id: ${id}, from table ${table}. Error: ${e.message}.`);
+      // this.logger.log("fatal", `Error occurred while retrieving data with id: ${id}, from table ${table}. Error: ${e.message}.`);
+      console.log(`Error occurred while retrieving data with id: ${id}, from table ${table}. Error: ${e.message}.`);
       return null;
     }
   }
