@@ -28,6 +28,8 @@ class Server {
     });
     // import service account file (helps to know the firebase project details)
     const serviceAccount = require("../../etc/secrets/permissions.json");//config/permissions.json");
+    // const serviceAccount = require("./permissions.json");
+    
 
     // Intialize the firebase-admin project/account
     admin.initializeApp({
