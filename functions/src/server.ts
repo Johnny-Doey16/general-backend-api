@@ -1,6 +1,6 @@
 import App from "./app";
 import bodyParser from 'body-parser';
-import logger from "morgan";
+// import logger from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import * as admin from "firebase-admin";
@@ -39,7 +39,7 @@ class Server {
 
   private initializeMiddlewares(): any {
     const middlewares: any[] = [
-      logger("dev"),
+      // logger("dev"),
       cors(),
       cookieParser(),
       // app.use(express.json());
