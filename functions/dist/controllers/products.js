@@ -19,7 +19,6 @@ const auth_1 = __importDefault(require("../services/auth"));
 const products_1 = __importDefault(require("../models/products"));
 const multer_1 = __importDefault(require("multer"));
 const storage_1 = __importDefault(require("../firebase/storage"));
-const logger_1 = __importDefault(require("../services/logger"));
 const variables_1 = require("../constants/variables");
 class ProductController {
     constructor() {
@@ -81,33 +80,22 @@ class ProductController {
     }
     getAllProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const start = Date.now();
-            const used = process.memoryUsage();
-            console.log(`Memory usage: ${JSON.stringify(used)}`);
-            const product = new products_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            console.log("Inside get products");
+            const product = new products_1.default(new db_1.default());
             const result = yield product.getProducts();
             const { data } = result;
+            console.log("RESULT", result);
             const response = {
                 count: data.length,
                 data: data
             };
-            const end = Date.now();
-            const durationSeconds = (end - start) / 1000;
-            const after = process.memoryUsage();
-            console.log(`Memory usage after function execution: ${JSON.stringify(after)}`);
-            const memoryBefore = used.heapUsed / 1024 / 1024;
-            const memoryAfter = after.heapUsed / 1024 / 1024;
-            const memoryUsed = memoryAfter - memoryBefore;
-            console.log(`Memory used by function: ${memoryUsed.toFixed(2)} MB`);
-            const gbSeconds = (memoryUsed / 1024) * durationSeconds;
-            console.log(`GB-seconds used: ${gbSeconds}`);
             res.status(result.statusCode).json(response);
         });
     }
     getProdCat(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
-            const product = new products_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const product = new products_1.default(new db_1.default());
             const result = yield product.getProductsByCat(id);
             const { data } = result;
             const response = {
@@ -120,7 +108,7 @@ class ProductController {
     getProductDetails(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
-            const product = new products_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const product = new products_1.default(new db_1.default());
             const result = yield product.getProduct(id);
             const { data } = result;
             res.status(result.statusCode).json(data);
@@ -130,7 +118,7 @@ class ProductController {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
             const { name, price, qty, desc } = req.body;
-            const product = new products_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const product = new products_1.default(new db_1.default());
             const result = yield product.editProduct(id, {
                 name: name,
                 desc: desc,
@@ -143,7 +131,7 @@ class ProductController {
     deleteProduct(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
-            const product = new products_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const product = new products_1.default(new db_1.default());
             const result = yield product.delete(id);
             res.status(result.statusCode).json(result);
         });

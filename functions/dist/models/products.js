@@ -15,10 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const variables_1 = require("../constants/variables");
 const storage_1 = __importDefault(require("../firebase/storage"));
 class Product {
-    constructor(logger, db) {
-        this.logger = logger;
+    constructor(db) {
         this.db = db;
-        this.logger.log("debug", "Product object instantiated");
     }
     getProducts() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -27,11 +25,9 @@ class Product {
                 if (data === null) {
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products") };
                 }
-                this.logger.log("info", `Retrieving all users from db`);
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
                 return { statusCode: 401, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products") };
             }
         });
@@ -43,11 +39,9 @@ class Product {
                 if (data === null) {
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products") };
                 }
-                this.logger.log("info", `Retrieving all products in category ${id} from db`);
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
                 return { statusCode: 401, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("products", "Products") };
             }
         });
@@ -59,11 +53,9 @@ class Product {
                 if (data === null) {
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT(id, "Products") };
                 }
-                this.logger.log("info", `Retrieving all users from db`);
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT(id, "Products"));
                 return { statusCode: 401, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT(id, "Products") };
             }
         });
@@ -72,11 +64,9 @@ class Product {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.db.update(variables_1.DB_TABLES.PRODUCTS, id, data);
-                this.logger.log("info", `Updating product with id ${id}`);
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -86,11 +76,9 @@ class Product {
             try {
                 yield new storage_1.default().deleteImageRef(`${variables_1.DB_TABLES.PRODUCTS}/${id}/`);
                 yield this.db.delete(variables_1.DB_TABLES.PRODUCTS, id);
-                this.logger.log("info", `Deleting product with id ${id}`);
                 return { statusCode: 200, status: "success", message: "Successfully deleted product" };
             }
             catch (error) {
-                this.logger.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });

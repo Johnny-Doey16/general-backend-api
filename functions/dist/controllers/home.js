@@ -34,7 +34,7 @@ class HomeController {
     }
     home(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            return res.status(200).json({ message: "👍🏼Welcome to K-Foods " + process.env.STRIPE_PRIVATE_TEST_KEY + ". DONE" });
+            return res.status(200).json({ message: "👍🏼Welcome to K-Foods have fun shopping" + process.env.STRIPE_PRIVATE_TEST_KEY + ". DONE" });
         });
     }
 }
