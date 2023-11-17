@@ -100,6 +100,7 @@ class ProductController {
       const product = new Product(new Logger("logs/app.log",), new DB());
       const result = await product.getProducts();
       const { data } = result;
+      console.log("RESULT", result);
   
       const response = {
           count: data.length,
