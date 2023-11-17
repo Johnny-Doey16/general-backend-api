@@ -35,7 +35,7 @@ class HomeController {
         
         // await new StripeGateway().chargeCard(100000, "usd", "Testing stripe payment", "tok_1NY9riCMX0BonwrBarXWY3K7");
         
-        res.status(200).json({message: "👍🏼Welcome to K-Foods "+token});
+        res.status(200).json({message: "👍🏼Welcome to K-Foods FUCK SHIT "+token});
 
     }
 
