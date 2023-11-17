@@ -94,7 +94,7 @@ class ProductController {
   async getAllProducts(req: Request, res: Response): Promise<void> {
       const start = Date.now();
       const used = process.memoryUsage();
-      console.log(`Memory usage: ${JSON.stringify(used)}`);
+      console.log(`Memory usage 2: ${JSON.stringify(used)}`);
       /********************************************************* */
 
       const product = new Product(new Logger("logs/app.log",), new DB());

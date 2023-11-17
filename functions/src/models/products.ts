@@ -11,7 +11,9 @@ class Product {
 
     async getProducts(): Promise<{statusCode: number, status: string, data: any}> {
         try {
+            console.log("FIRST");
             const data: any[] = await this.db.findAll(DB_TABLES.PRODUCTS);
+            console.log("Second");
 
             if (data === null) {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("products", "Products")}
