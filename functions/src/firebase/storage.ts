@@ -1,11 +1,10 @@
 import firebaseApp from "../config/firebase";
-// import { getStorage } from "firebase/storage";
 import "firebase/compat/storage";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 import sharp from "sharp";
 
 class Bucket {
-  private logger: Logger;
+  // private logger: Logger;
   private storage;
   private storageRef;
 
@@ -14,8 +13,8 @@ class Bucket {
     // Create a storage reference from our storage service
     this.storageRef = this.storage.ref();
 
-    this.logger = new Logger("logs/app.log");
-    this.logger.log("info", "DB connection established");
+    // this.logger = new Logger("logs/app.log");
+    console.log("info", "DB connection established");
   }
 
   public async uploadImage(ref: string, file: any, metaData: string): Promise<string> {
@@ -24,7 +23,7 @@ class Bucket {
     };
   
     try {
-      this.logger.log("info", `Uploading image with reference: ${ref}`);
+      console.log("info", `Uploading image with reference: ${ref}`);
       const imageRef = this.storageRef.child(ref);
   
       const compressedImage = await sharp(file).resize({ height: 1920, width: 1080, fit: "contain" }).toBuffer();
@@ -34,14 +33,14 @@ class Bucket {
       console.log("Download URL:", downloadURL);
       return downloadURL;
     } catch (error) {
-      this.logger.log("fatal", `Error occurred while uploading image with reference: ${ref}. Error: ${error.message}.`);
+      console.log("fatal", `Error occurred while uploading image with reference: ${ref}. Error: ${error.message}.`);
       throw error;
     }
   }
 
   public async deleteImageRef(ref: string): Promise<void> {
     try {
-      this.logger.log("info", `Deleting images with reference: ${ref}`);
+      console.log("info", `Deleting images with reference: ${ref}`);
       const imageRef = this.storageRef.child(ref);
 
       // await imageRef.delete();
@@ -55,19 +54,19 @@ class Bucket {
         })
       );
     } catch (error) {
-      this.logger.log("fatal", `Error occurred while uploading image with reference: ${ref}. Error: ${error.message}.`);
+      console.log("fatal", `Error occurred while uploading image with reference: ${ref}. Error: ${error.message}.`);
       throw error;
     }
   }
 
   public async deleteImage(url: string): Promise<void> {
     try {
-      this.logger.log("info", `Deleting image with url: ${url}`);
+      console.log("info", `Deleting image with url: ${url}`);
       const imageRef = this.storageRef.child(url);
       
       await imageRef.delete();
     } catch (error) {
-      this.logger.log("fatal", `Error occurred while deleting image with url: ${url}. Error: ${error.message}.`);
+      console.log("fatal", `Error occurred while deleting image with url: ${url}. Error: ${error.message}.`);
       throw error;
     }
     /**

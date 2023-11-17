@@ -1,6 +1,6 @@
 import { DB_TABLES, ERROR_MESSAGES } from "../constants/variables";
 import DB from "../firebase/db";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 
 class Order {
     // id, fullName, date, totalAmount, status, prodIds, prodNames.

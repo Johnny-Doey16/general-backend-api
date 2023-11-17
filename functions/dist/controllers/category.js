@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../firebase/db"));
 const auth_1 = __importDefault(require("../services/auth"));
 const category_1 = __importDefault(require("../models/category"));
-const logger_1 = __importDefault(require("../services/logger"));
 class CategoryController {
     constructor() {
         this.path = "/category";
@@ -33,7 +32,7 @@ class CategoryController {
     addNewCategory(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name } = req.body;
-            const category = new category_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const category = new category_1.default(new db_1.default());
             const result = yield category.add({
                 name: name,
             });
@@ -42,7 +41,7 @@ class CategoryController {
     }
     getAllCategories(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const category = new category_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const category = new category_1.default(new db_1.default());
             const result = yield category.getCategories();
             const { data } = result;
             const response = {
@@ -55,7 +54,7 @@ class CategoryController {
     getCategory(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
-            const category = new category_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const category = new category_1.default(new db_1.default());
             const result = yield category.getCategory(id);
             const { data } = result;
             res.status(result.statusCode).json(data);
@@ -65,7 +64,7 @@ class CategoryController {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
             const { name } = req.body;
-            const category = new category_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const category = new category_1.default(new db_1.default());
             const result = yield category.editCategory(id, {
                 name: name,
             });
@@ -75,7 +74,7 @@ class CategoryController {
     deleteCategory(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
-            const category = new category_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const category = new category_1.default(new db_1.default());
             const result = yield category.delete(id);
             res.status(result.statusCode).json(result);
         });

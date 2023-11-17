@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../firebase/db"));
 const auth_1 = __importDefault(require("../services/auth"));
 const cart_1 = __importDefault(require("../models/cart"));
-const logger_1 = __importDefault(require("../services/logger"));
 class CartController {
     constructor() {
         this.path = "/cart";
@@ -37,7 +36,7 @@ class CartController {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = req.query.uid;
             const { productId } = req.body;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.add({
                 userId: uid,
                 productId: productId,
@@ -49,7 +48,7 @@ class CartController {
     getCartItems(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = req.query.uid;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.getUserCartItems(uid);
             const { data } = result;
             const response = {
@@ -62,7 +61,7 @@ class CartController {
     getCartProducts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { productIds } = req.body;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.getProductsFromCart(productIds);
             res.status(result.statusCode).json(result);
         });
@@ -71,7 +70,7 @@ class CartController {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = req.query.uid;
             const { cartId } = req.body;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.increase(cartId);
             res.status(result.statusCode).json(result);
         });
@@ -79,7 +78,7 @@ class CartController {
     reduceQty(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { cartId } = req.body;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.decrease(cartId);
             res.status(result.statusCode).json(result);
         });
@@ -87,7 +86,7 @@ class CartController {
     deleteCategory(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { cartId } = req.body;
-            const cart = new cart_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const cart = new cart_1.default(new db_1.default());
             const result = yield cart.delete(cartId);
             res.status(result.statusCode).json(result);
         });

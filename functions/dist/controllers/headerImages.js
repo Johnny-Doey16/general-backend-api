@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../firebase/db"));
-const logger_1 = __importDefault(require("../services/logger"));
 const headerImages_1 = __importDefault(require("../models/headerImages"));
 class HeaderItemsController {
     constructor() {
@@ -27,7 +26,7 @@ class HeaderItemsController {
     }
     getAllHeaderItems(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const headerItems = new headerImages_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const headerItems = new headerImages_1.default(new db_1.default());
             const result = yield headerItems.getImages();
             const { data } = result;
             const response = {

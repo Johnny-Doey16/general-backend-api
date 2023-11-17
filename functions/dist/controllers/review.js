@@ -16,7 +16,6 @@ const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../firebase/db"));
 const auth_1 = __importDefault(require("../services/auth"));
 const review_1 = __importDefault(require("../models/review"));
-const logger_1 = __importDefault(require("../services/logger"));
 class ReviewController {
     constructor() {
         this.path = "/reviews";
@@ -35,7 +34,7 @@ class ReviewController {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = req.query.uid;
             const { productId, rating, text } = req.body;
-            const review = new review_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const review = new review_1.default(new db_1.default());
             const result = yield review.add({
                 userId: uid,
                 productId: productId,
@@ -49,7 +48,7 @@ class ReviewController {
     getReviews(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { productId } = req.body;
-            const review = new review_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const review = new review_1.default(new db_1.default());
             const result = yield review.getProdReviews(productId);
             const { data } = result;
             const response = {
@@ -63,7 +62,7 @@ class ReviewController {
         return __awaiter(this, void 0, void 0, function* () {
             const id = req.query.id;
             const { rating, text } = req.body;
-            const review = new review_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const review = new review_1.default(new db_1.default());
             const result = yield review.edit(id, {
                 rating: parseInt(rating),
                 text: text,
@@ -74,7 +73,7 @@ class ReviewController {
     deleteCategory(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { reviewId } = req.body;
-            const review = new review_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const review = new review_1.default(new db_1.default());
             const result = yield review.delete(reviewId);
             res.status(result.statusCode).json(result);
         });

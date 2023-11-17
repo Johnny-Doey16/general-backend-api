@@ -25,7 +25,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const db_1 = __importDefault(require("../firebase/db"));
-const logger_1 = __importDefault(require("../services/logger"));
 const users_1 = __importDefault(require("../models/users"));
 const auth_1 = __importDefault(require("../services/auth"));
 class UserController {
@@ -43,7 +42,7 @@ class UserController {
     getUsers(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = res.locals.uid;
-            const user = new users_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const user = new users_1.default(new db_1.default());
             const result = yield user.getAllUsers(uid);
             const { data } = result;
             const filteredData = data.map((_a) => {
@@ -60,7 +59,7 @@ class UserController {
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = res.locals.uid;
-            const user = new users_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const user = new users_1.default(new db_1.default());
             const result = yield user.getUser(uid);
             const { data } = result;
             const filteredData = ((_a) => {
@@ -73,7 +72,7 @@ class UserController {
     editProfile(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const uid = req.query.uid;
-            const user = new users_1.default(new logger_1.default("logs/app.log"), new db_1.default());
+            const user = new users_1.default(new db_1.default());
             const result = yield user.editUserProfile(uid, req.body);
             res.status(result.statusCode).json(result);
         });

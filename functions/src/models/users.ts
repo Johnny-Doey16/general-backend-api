@@ -1,11 +1,11 @@
 import { DB_TABLES, ERROR_MESSAGES } from "../constants/variables";
 import DB from "../firebase/db";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 
 class User {
     
-    constructor(private logger: Logger, private db: DB) {
-        this.logger.log("debug", "User object instantiated");
+    constructor(private db: DB) {
+        console.log("debug", "User object instantiated");
     }
 
     async getAllUsers(current_uid: string): Promise<{statusCode: number, status: string, data: any}> {
@@ -16,13 +16,13 @@ class User {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_ALL_USERS()}
             }
         
-            this.logger.log("info", `Retrieving all users from db`);
+            console.log("info", `Retrieving all users from db`);
         
             const filteredData = data.filter((user) => user.uid !== current_uid);
         
             return {statusCode: 200, status: "success", data: filteredData};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_ALL_USERS());
+            console.log("error", ERROR_MESSAGES.FETCHING_ALL_USERS());
             return {statusCode: 401, status: "error", data: ERROR_MESSAGES.FETCHING_ALL_USERS()};
         }
     }
@@ -34,11 +34,11 @@ class User {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_USER(uid)}
             }
         
-            this.logger.log("info", `Retrieving all users from db`);
+            console.log("info", `Retrieving all users from db`);
         
             return {statusCode: 200, status: "success", data: data};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_USER(uid));
+            console.log("error", ERROR_MESSAGES.FETCHING_USER(uid));
             return {statusCode: 401, status: "error", data: ERROR_MESSAGES.FETCHING_USER(uid)};
         }
     }
@@ -46,10 +46,10 @@ class User {
     async editUserProfile(uid: string, data: any) {
         try {
             await this.db.update(DB_TABLES.USERS, uid, data);
-            this.logger.log("info", `Updating user profile`);
+            console.log("info", `Updating user profile`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }

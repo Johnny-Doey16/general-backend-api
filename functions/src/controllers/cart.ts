@@ -2,7 +2,7 @@ import express, {Request as ExpressRequest, Response} from 'express'
 import DB from '../firebase/db';
 import AdminAuth from '../services/auth';
 import Cart from '../models/cart';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 
 interface Request extends ExpressRequest {
     user?: { [key: string]: any };
@@ -35,7 +35,8 @@ class CartController {
     const uid = req.query.uid as string;
     const {productId} = req.body;
       
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    // const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.add({
       userId: uid,
       productId: productId,
@@ -47,7 +48,7 @@ class CartController {
   async getCartItems(req: Request, res: Response): Promise<void> {
     const uid = req.query.uid as string;
 
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.getUserCartItems(uid);
     const { data } = result;
 
@@ -62,7 +63,7 @@ class CartController {
   async getCartProducts(req: Request, res: Response): Promise<void> {
     const {productIds} = req.body;
 
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.getProductsFromCart(productIds);
 
     res.status(result.statusCode).json(result);
@@ -72,7 +73,7 @@ class CartController {
     const uid = req.query.uid as string;
     const {cartId} = req.body;
 
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.increase(cartId);
     res.status(result.statusCode).json(result);
   }
@@ -80,7 +81,7 @@ class CartController {
   async reduceQty(req: Request, res: Response) {
     const {cartId} = req.body;
 
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.decrease(cartId);
     res.status(result.statusCode).json(result);
   }
@@ -89,7 +90,7 @@ class CartController {
   async deleteCategory(req: Request, res: Response) {
     const {cartId} = req.body;
     
-    const cart = new Cart(new Logger("logs/app.log",), new DB());
+    const cart = new Cart(new DB());
     const result = await cart.delete(cartId);
     res.status(result.statusCode).json(result);
   }

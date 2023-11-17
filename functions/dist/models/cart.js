@@ -11,20 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const variables_1 = require("../constants/variables");
 class Cart {
-    constructor(logger, db) {
-        this.logger = logger;
+    constructor(db) {
         this.db = db;
-        this.logger.log("debug", "Cart object instantiated");
+        console.log("debug", "Cart object instantiated");
     }
     add(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = yield this.db.insert(variables_1.DB_TABLES.CART, data);
-                this.logger.log("info", `Creating new Cart item with id ${id}`);
+                console.log("info", `Creating new Cart item with id ${id}`);
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -33,9 +32,9 @@ class Cart {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const cartList = yield this.db.findAllById(variables_1.DB_TABLES.CART, "userId", uid);
-                this.logger.log("info", `Retrieving all cart items for user: ${uid}`);
+                console.log("info", `Retrieving all cart items for user: ${uid}`);
                 if (cartList === null || cartList.length < 1) {
-                    this.logger.log("error", `No item gotten from cart`);
+                    console.log("error", `No item gotten from cart`);
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category") };
                 }
                 const prodIds = cartList.map((obj) => obj.productId.trim());
@@ -48,11 +47,11 @@ class Cart {
                         image: prod.images[0],
                     };
                 });
-                this.logger.log("info", `Retrieving all Categories from db`);
+                console.log("info", `Retrieving all Categories from db`);
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+                console.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
                 return { statusCode: 401, status: "error", data: `Error ${e}`
                 };
             }
@@ -61,13 +60,13 @@ class Cart {
     getProductsFromCart(prodIds) {
         return __awaiter(this, void 0, void 0, function* () {
             const prodList = yield this.db.findAllWithArray(variables_1.DB_TABLES.PRODUCTS, "id", prodIds);
-            this.logger.log("info", `Retrieving all Categories from db`);
+            console.log("info", `Retrieving all Categories from db`);
             console.log("PRODUCTS", prodList);
             return { statusCode: 200, status: "Getting products successfully", products: prodList };
         });
     }
     catch(e) {
-        this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+        console.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
         return { statusCode: 401, status: "error", data: `Error ${e}`
         };
     }
@@ -87,7 +86,7 @@ class Cart {
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -99,7 +98,7 @@ class Cart {
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -111,7 +110,7 @@ class Cart {
                 return { statusCode: 200, status: "success", message: "Successfully deleted category" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });

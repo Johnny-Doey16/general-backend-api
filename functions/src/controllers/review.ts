@@ -3,7 +3,7 @@ import DB from '../firebase/db';
 import AdminAuth from '../services/auth';
 import Review from '../models/review';
 import Cart from '../models/cart';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 
 interface Request extends ExpressRequest {
     user?: { [key: string]: any };
@@ -33,7 +33,7 @@ class ReviewController {
     const uid = req.query.uid as string;
     const {productId, rating, text} = req.body;
       
-    const review = new Review(new Logger("logs/app.log",), new DB());
+    const review = new Review(new DB());
     const result = await review.add({
       userId: uid,
       productId: productId,
@@ -47,7 +47,7 @@ class ReviewController {
   async getReviews(req: Request, res: Response): Promise<void> {
     const {productId} = req.body;
 
-    const review = new Review(new Logger("logs/app.log",), new DB());
+    const review = new Review(new DB());
     const result = await review.getProdReviews(productId);
     const { data } = result;
 
@@ -64,7 +64,7 @@ class ReviewController {
 
     const {rating, text} = req.body;
       
-    const review = new Review(new Logger("logs/app.log",), new DB());
+    const review = new Review(new DB());
     const result = await review.edit(id, {
       rating: parseInt(rating),
       text: text,
@@ -75,7 +75,7 @@ class ReviewController {
   async deleteCategory(req: Request, res: Response) {
     const {reviewId} = req.body;
     
-    const review = new Review(new Logger("logs/app.log",), new DB());
+    const review = new Review(new DB());
     const result = await review.delete(reviewId);
     res.status(result.statusCode).json(result);
   }

@@ -22,10 +22,9 @@ var __rest = (this && this.__rest) || function (s, e) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const variables_1 = require("../constants/variables");
 class Review {
-    constructor(logger, db) {
-        this.logger = logger;
+    constructor(db) {
         this.db = db;
-        this.logger.log("debug", "Cart object instantiated");
+        console.log("debug", "Cart object instantiated");
     }
     add(data) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -34,7 +33,7 @@ class Review {
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -45,7 +44,7 @@ class Review {
                 const reviewList = yield this.db.findAllById(variables_1.DB_TABLES.REVIEW, "productId", id);
                 console.log("Review list", reviewList);
                 if (reviewList === null || reviewList.length < 1) {
-                    this.logger.log("error", `No item gotten from cart`);
+                    console.log("error", `No item gotten from cart`);
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category") };
                 }
                 const userIds = reviewList.map((obj) => obj.userId.trim());
@@ -60,11 +59,11 @@ class Review {
                     var { userId } = _a, rest = __rest(_a, ["userId"]);
                     return rest;
                 });
-                this.logger.log("info", `Retrieving all Categories from db`);
+                console.log("info", `Retrieving all Categories from db`);
                 return { statusCode: 200, status: "success", data: filteredData };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+                console.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
                 return { statusCode: 401, status: "error", data: `Error ${e}`
                 };
             }
@@ -74,11 +73,11 @@ class Review {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.db.update(variables_1.DB_TABLES.REVIEW, id, data);
-                this.logger.log("info", `Editing reviews with id ${id}`);
+                console.log("info", `Editing reviews with id ${id}`);
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -90,7 +89,7 @@ class Review {
                 return { statusCode: 200, status: "success", message: "Successfully deleted category" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });

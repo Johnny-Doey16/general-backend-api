@@ -1,20 +1,21 @@
 import { DB_TABLES, ERROR_MESSAGES } from "../constants/variables";
 import DB from "../firebase/db";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 
 class Cart {
     
-    constructor(private logger: Logger, private db: DB) {
-        this.logger.log("debug", "Cart object instantiated");
+    // constructor(private logger: Logger, private db: DB) {
+    constructor(private db: DB) {
+        console.log("debug", "Cart object instantiated");
     }
 
     async add(data: any) {
         try {
             const id = await this.db.insert(DB_TABLES.CART, data);
-            this.logger.log("info", `Creating new Cart item with id ${id}`);
+            console.log("info", `Creating new Cart item with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -23,10 +24,10 @@ class Cart {
         try {
             // Get all products[] in cart belonging to the user
             const cartList: any[] = await this.db.findAllById(DB_TABLES.CART, "userId", uid);
-            this.logger.log("info", `Retrieving all cart items for user: ${uid}`);
+            console.log("info", `Retrieving all cart items for user: ${uid}`);
 
             if (cartList === null || cartList.length < 1) {
-                this.logger.log("error", `No item gotten from cart`);
+                console.log("error", `No item gotten from cart`);
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("category", "Category")}
             }
 
@@ -44,11 +45,11 @@ class Cart {
                 };
               });
         
-            this.logger.log("info", `Retrieving all Categories from db`);
+            console.log("info", `Retrieving all Categories from db`);
         
             return {statusCode: 200, status: "success", data: data};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+            console.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
             return {statusCode: 401, status: "error", data: `Error ${e}` //ERROR_MESSAGES.FETCHING_OBJECT("Category", "Category")
         };
         }
@@ -69,13 +70,13 @@ class Cart {
         //     };
         //   });
     
-        this.logger.log("info", `Retrieving all Categories from db`);
+        console.log("info", `Retrieving all Categories from db`);
         console.log("PRODUCTS", prodList);
         
     
         return {statusCode: 200, status: "Getting products successfully", products: prodList};
     } catch (e) {
-        this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+        console.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
         return {statusCode: 401, status: "error", data: `Error ${e}` //ERROR_MESSAGES.FETCHING_OBJECT("Category", "Category")
     };
     // }
@@ -99,10 +100,10 @@ class Cart {
             // Increase by 1 if not > prod qty
             await this.db.increase(DB_TABLES.CART, id, 1, "qty");
 
-            // this.logger.log("info", `Increasing Category with id ${id}`);
+            // console.log("info", `Increasing Category with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -111,10 +112,10 @@ class Cart {
         try {
             await this.db.decrease(DB_TABLES.CART, id, 1, "qty", 1);
 
-            // this.logger.log("info", `Increasing Category with id ${id}`);
+            // console.log("info", `Increasing Category with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -122,10 +123,10 @@ class Cart {
     async delete(id: string) {
         try {
             await this.db.delete(DB_TABLES.CART, id);
-            // this.logger.log("info", `Deleting category with id ${id}`);
+            // console.log("info", `Deleting category with id ${id}`);
             return {statusCode: 200, status: "success", message: "Successfully deleted category"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }

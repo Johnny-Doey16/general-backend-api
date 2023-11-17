@@ -1,20 +1,20 @@
 import { DB_TABLES, ERROR_MESSAGES } from "../constants/variables";
 import DB from "../firebase/db";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 
 class Review {
     
-    constructor(private logger: Logger, private db: DB) {
-        this.logger.log("debug", "Cart object instantiated");
+    constructor(private db: DB) {
+        console.log("debug", "Cart object instantiated");
     }
 
     async add(data: any) {
         try {
             const id = await this.db.insert(DB_TABLES.REVIEW, data);
-            // this.logger.log("info", `Creating new Review with id ${id}`);
+            // console.log("info", `Creating new Review with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -23,12 +23,12 @@ class Review {
         try {
             // Get all reviews[] in cart belonging to the user
             const reviewList: any[] = await this.db.findAllById(DB_TABLES.REVIEW, "productId", id);
-            // this.logger.log("info", `Retrieving all cart items for user: ${uid}`);
+            // console.log("info", `Retrieving all cart items for user: ${uid}`);
             console.log("Review list", reviewList);
             
 
             if (reviewList === null || reviewList.length < 1) {
-                this.logger.log("error", `No item gotten from cart`);
+                console.log("error", `No item gotten from cart`);
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("category", "Category")}
             }
 
@@ -51,11 +51,11 @@ class Review {
 
             const filteredData = newList.map(({ userId, ...rest }) => rest);
         
-            this.logger.log("info", `Retrieving all Categories from db`);
+            console.log("info", `Retrieving all Categories from db`);
         
             return {statusCode: 200, status: "success", data: filteredData};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+            console.log("error", ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
             return {statusCode: 401, status: "error", data: `Error ${e}` //ERROR_MESSAGES.FETCHING_OBJECT("Category", "Category")
         };
         }
@@ -64,10 +64,10 @@ class Review {
     async edit(id: string, data: any) {
         try {
             await this.db.update(DB_TABLES.REVIEW, id, data);
-            this.logger.log("info", `Editing reviews with id ${id}`);
+            console.log("info", `Editing reviews with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -75,10 +75,10 @@ class Review {
     async delete(id: string) {
         try {
             await this.db.delete(DB_TABLES.REVIEW, id);
-            // this.logger.log("info", `Deleting category with id ${id}`);
+            // console.log("info", `Deleting category with id ${id}`);
             return {statusCode: 200, status: "success", message: "Successfully deleted category"};
         } catch (error) {
-            this.logger.log("error", error);
+            console.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }

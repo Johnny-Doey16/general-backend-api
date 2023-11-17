@@ -1,6 +1,6 @@
 import express, {Request as ExpressRequest, Response} from 'express'
 import DB from '../firebase/db';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 import HeaderImages from '../models/headerImages';
 
 interface Request extends ExpressRequest {
@@ -21,7 +21,7 @@ class HeaderItemsController {
   }
 
   async getAllHeaderItems(req: Request, res: Response): Promise<void> {
-      const headerItems = new HeaderImages(new Logger("logs/app.log",), new DB());
+      const headerItems = new HeaderImages(new DB());
       const result = await headerItems.getImages();
       const { data } = result;
     

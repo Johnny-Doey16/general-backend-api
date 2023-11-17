@@ -11,10 +11,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const variables_1 = require("../constants/variables");
 class HeaderImages {
-    constructor(logger, db) {
-        this.logger = logger;
+    constructor(db) {
         this.db = db;
-        this.logger.log("debug", "Header Images object instantiated");
+        console.log("debug", "Header Images object instantiated");
     }
     getImages() {
         return __awaiter(this, void 0, void 0, function* () {
@@ -24,11 +23,11 @@ class HeaderImages {
                 if (data === null) {
                     return { statusCode: 400, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("Header Images", "HeaderImages") };
                 }
-                this.logger.log("info", `Retrieving all header images content from db`);
+                console.log("info", `Retrieving all header images content from db`);
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("Header Images", "HeaderImages"));
+                console.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("Header Images", "HeaderImages"));
                 return { statusCode: 401, status: "error", data: variables_1.ERROR_MESSAGES.FETCHING_OBJECT("Header Images", "HeaderImages") };
             }
         });

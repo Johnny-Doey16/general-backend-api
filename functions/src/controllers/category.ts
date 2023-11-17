@@ -2,7 +2,7 @@ import express, {Request as ExpressRequest, Response} from 'express'
 import DB from '../firebase/db';
 import AdminAuth from '../services/auth';
 import Category from '../models/category';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 
 interface Request extends ExpressRequest {
     user?: { [key: string]: any };
@@ -30,7 +30,8 @@ class CategoryController {
   async addNewCategory(req: Request, res: Response) {
     const {name} = req.body;
       
-    const category = new Category(new Logger("logs/app.log",), new DB());
+    // const category = new Category(new Logger("logs/app.log",), new DB());
+    const category = new Category(new DB());
     const result = await category.add({
       name: name,
     });
@@ -40,7 +41,7 @@ class CategoryController {
 
   async getAllCategories(req: Request, res: Response): Promise<void> {
 
-      const category = new Category(new Logger("logs/app.log",), new DB());
+      const category = new Category(new DB());
       const result = await category.getCategories();
       const { data } = result;
   
@@ -55,7 +56,7 @@ class CategoryController {
   async getCategory(req: Request, res: Response): Promise<void> {
     const id = req.query.id as string;
 
-    const category = new Category(new Logger("logs/app.log",), new DB());
+    const category = new Category(new DB());
     const result = await category.getCategory(id);
     const { data } = result;
 
@@ -67,7 +68,7 @@ class CategoryController {
 
     const {name} = req.body;
       
-    const category = new Category(new Logger("logs/app.log",), new DB());
+    const category = new Category(new DB());
     const result = await category.editCategory(id, {
       name: name,
     });
@@ -78,7 +79,7 @@ class CategoryController {
   async deleteCategory(req: Request, res: Response) {
     const id = req.query.id as string;
     
-    const category = new Category(new Logger("logs/app.log",), new DB());
+    const category = new Category(new DB());
     const result = await category.delete(id);
     res.status(result.statusCode).json(result);
   }

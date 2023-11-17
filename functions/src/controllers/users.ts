@@ -1,6 +1,6 @@
 import express, {Request as ExpressRequest, Response} from 'express'
 import DB from '../firebase/db';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 import { RequestHandler } from "express";
 import User from '../models/users';
 import AdminAuth from '../services/auth';
@@ -29,7 +29,7 @@ class UserController {
     async getUsers(req: Request, res: Response): Promise<void> {
         const uid = res.locals.uid;
 
-        const user = new User(new Logger("logs/app.log",), new DB());
+        const user = new User(new DB());
         const result = await user.getAllUsers(uid);
         const { data } = result;
     
@@ -56,7 +56,7 @@ class UserController {
         // const uid = req.query.uid as string == null ? req.user.username : req.query.uid as string;
         const uid = res.locals.uid;
     
-        const user = new User(new Logger("logs/app.log",), new DB());
+        const user = new User(new DB());
         const result = await user.getUser(uid);
         const { data } = result;
     
@@ -68,7 +68,7 @@ class UserController {
     async editProfile(req: Request, res: Response) {
         const uid = req.query.uid as string;
         
-        const user = new User(new Logger("logs/app.log",), new DB());
+        const user = new User(new DB());
         const result = await user.editUserProfile(uid, req.body);
         res.status(result.statusCode).json(result);
     }

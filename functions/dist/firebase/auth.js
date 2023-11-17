@@ -38,14 +38,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const firebase_1 = __importDefault(require("../config/firebase"));
 require("firebase/compat/auth");
 const db_1 = __importDefault(require("../firebase/db"));
-const logger_1 = __importDefault(require("../services/logger"));
 const admin = __importStar(require("firebase-admin"));
 const variables_1 = require("../constants/variables");
 class FirebaseAuth {
     constructor() {
         this.auth = firebase_1.default.auth();
-        this.logger = new logger_1.default("logs/app.log");
-        this.logger.log("info", "Auth Instantiated");
+        console.log("info", "Auth Instantiated");
     }
     createUser(userData, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -53,8 +51,7 @@ class FirebaseAuth {
                 const userCredential = yield this.auth.createUserWithEmailAndPassword(userData.email, userData.password);
                 const user = userCredential.user;
                 const uid = user.uid;
-                console.log(uid);
-                this.logger.log('info', `Registered user: ${uid}`);
+                console.log('info', `Registered user: ${uid}`);
                 try {
                     const db = new db_1.default();
                     db.insertWithId("Users", uid, {
@@ -82,7 +79,7 @@ class FirebaseAuth {
                 return res.status(200).json({ message: "Account created successfully. Please verify email", accessToken: accessToken, status: 200 });
             }
             catch (error) {
-                this.logger.log('error', `Error occurred while registering user: ${error}`);
+                console.log('error', `Error occurred while registering user: ${error}`);
                 return res.status(401).json({ message: "An error occurred while registering user", error: error, status: 401 });
             }
         });
@@ -94,8 +91,7 @@ class FirebaseAuth {
                 const user = userCredential.user;
                 const uid = user.uid;
                 let userData;
-                console.log(uid);
-                this.logger.log('info', `Signing in user: ${uid}`);
+                console.log('info', `Signing in user: ${uid}`);
                 const userDelegate = user['_delegate']['stsTokenManager'];
                 const accessToken = userDelegate['accessToken'];
                 const refreshToken = userDelegate['refreshToken'];
@@ -111,7 +107,7 @@ class FirebaseAuth {
                     : res.status(201).json({ message: "Please verify your account" });
             }
             catch (error) {
-                this.logger.log('error', `Error occurred while signing in user: ${error}`);
+                console.log('error', `Error occurred while signing in user: ${error}`);
                 return res.status(401).json({ error: error.name, message: error.message });
             }
         });
@@ -160,7 +156,7 @@ class FirebaseAuth {
             }
             catch (error) {
                 console.log(error);
-                this.logger.log('error', `Error occurred while updating profile: ${error}`);
+                console.log('error', `Error occurred while updating profile: ${error}`);
                 return null;
             }
         });
@@ -172,7 +168,7 @@ class FirebaseAuth {
             }
             catch (error) {
                 console.log(error);
-                this.logger.log('error', `Error occurred while updating email: ${error}`);
+                console.log('error', `Error occurred while updating email: ${error}`);
                 return null;
             }
         });
@@ -185,11 +181,11 @@ class FirebaseAuth {
     sendPasswordResetEmail(email) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                this.logger.log('info', `Sending password reset email to ${email}`);
+                console.log('info', `Sending password reset email to ${email}`);
                 this.auth.sendPasswordResetEmail(email);
             }
             catch (error) {
-                this.logger.log('error', `Error occurred while sending password reset email: ${error}`);
+                console.log('error', `Error occurred while sending password reset email: ${error}`);
             }
         });
     }

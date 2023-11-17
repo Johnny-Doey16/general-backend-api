@@ -11,20 +11,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const variables_1 = require("../constants/variables");
 class Category {
-    constructor(logger, db) {
-        this.logger = logger;
+    constructor(db) {
         this.db = db;
-        this.logger.log("debug", "Category object instantiated");
+        console.log("debug", "Category object instantiated");
     }
     add(data) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const id = yield this.db.insert(variables_1.DB_TABLES.CATEGORY, data);
-                this.logger.log("info", `Creating new Category with id ${id}`);
+                console.log("info", `Creating new Category with id ${id}`);
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -39,7 +38,7 @@ class Category {
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
+                console.log("error", variables_1.ERROR_MESSAGES.FETCHING_OBJECT("category", "Category"));
                 return { statusCode: 401, status: "error", data: e.message };
             }
         });
@@ -54,7 +53,7 @@ class Category {
                 return { statusCode: 200, status: "success", data: data };
             }
             catch (e) {
-                this.logger.log("error", e.message);
+                console.log("error", e.message);
                 return { statusCode: 401, status: "error", data: e.message };
             }
         });
@@ -63,11 +62,11 @@ class Category {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.db.update(variables_1.DB_TABLES.CATEGORY, id, data);
-                this.logger.log("info", `Updating Category with id ${id}`);
+                console.log("info", `Updating Category with id ${id}`);
                 return { statusCode: 200, status: "success" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
@@ -76,11 +75,11 @@ class Category {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 yield this.db.delete(variables_1.DB_TABLES.CATEGORY, id);
-                this.logger.log("info", `Deleting category with id ${id}`);
+                console.log("info", `Deleting category with id ${id}`);
                 return { statusCode: 200, status: "success", message: "Successfully deleted category" };
             }
             catch (error) {
-                this.logger.log("error", error);
+                console.log("error", error);
                 return { statusCode: 401, status: "error", data: error };
             }
         });
