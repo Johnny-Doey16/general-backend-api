@@ -45,7 +45,7 @@ class HomeController {
         // const stripeToken  ='sk_test_4eC39HqLyjWDarjtT1zdp7dc';
         
 
-        return res.status(200).json({message: "👍🏼Welcome to K-Foods " +process.env.STRIPE_PRIVATE_TEST_KEY +". DONE"});//process.env.STRIPE_PRIVATE_TEST_KEY
+        return res.status(200).json({message: "👍🏼Welcome to K-Foods have fun shopping" +process.env.STRIPE_PRIVATE_TEST_KEY +". DONE"});//process.env.STRIPE_PRIVATE_TEST_KEY
 
     }
 
