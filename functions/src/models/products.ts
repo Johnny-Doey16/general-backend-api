@@ -1,29 +1,28 @@
 import { DB_TABLES, ERROR_MESSAGES } from "../constants/variables";
 import DB from "../firebase/db";
-import Logger from "../services/logger";
+// import Logger from "../services/logger";
 import Bucket from '../firebase/storage';
 
 class Product {
     
-    constructor(private logger: Logger, private db: DB) {
-        this.logger.log("debug", "Product object instantiated");
+    // constructor(private logger: Logger, private db: DB) {
+    constructor(private db: DB) {
+        // this.logger.log("debug", "Product object instantiated");
     }
 
     async getProducts(): Promise<{statusCode: number, status: string, data: any}> {
         try {
-            console.log("FIRST");
             const data: any[] = await this.db.findAll(DB_TABLES.PRODUCTS);
-            console.log("Second");
 
             if (data === null) {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("products", "Products")}
             }
         
-            this.logger.log("info", `Retrieving all users from db`);
+            // this.logger.log("info", `Retrieving all users from db`);
         
             return {statusCode: 200, status: "success", data: data};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
+            // this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
             return {statusCode: 401, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("products", "Products")};
         }
     }
@@ -37,11 +36,11 @@ class Product {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("products", "Products")}
             }
         
-            this.logger.log("info", `Retrieving all products in category ${id} from db`);
+            // this.logger.log("info", `Retrieving all products in category ${id} from db`);
         
             return {statusCode: 200, status: "success", data: data};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
+            // this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT("products", "Products"));
             return {statusCode: 401, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT("products", "Products")};
         }
     }
@@ -53,11 +52,11 @@ class Product {
                 return {statusCode: 400, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT(id, "Products")}
             }
         
-            this.logger.log("info", `Retrieving all users from db`);
+            // this.logger.log("info", `Retrieving all users from db`);
         
             return {statusCode: 200, status: "success", data: data};
         } catch (e) {
-            this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT(id, "Products"));
+            // this.logger.log("error", ERROR_MESSAGES.FETCHING_OBJECT(id, "Products"));
             return {statusCode: 401, status: "error", data: ERROR_MESSAGES.FETCHING_OBJECT(id, "Products")};
         }
     }
@@ -65,10 +64,10 @@ class Product {
     async editProduct(id: string, data: any) {
         try {
             await this.db.update(DB_TABLES.PRODUCTS, id, data);
-            this.logger.log("info", `Updating product with id ${id}`);
+            // this.logger.log("info", `Updating product with id ${id}`);
             return {statusCode: 200, status: "success"};
         } catch (error) {
-            this.logger.log("error", error);
+            // this.logger.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }
@@ -77,10 +76,10 @@ class Product {
         try {
             await new Bucket().deleteImageRef(`${DB_TABLES.PRODUCTS}/${id}/`);
             await this.db.delete(DB_TABLES.PRODUCTS, id);
-            this.logger.log("info", `Deleting product with id ${id}`);
+            // this.logger.log("info", `Deleting product with id ${id}`);
             return {statusCode: 200, status: "success", message: "Successfully deleted product"};
         } catch (error) {
-            this.logger.log("error", error);
+            // this.logger.log("error", error);
             return {statusCode: 401, status: "error", data: error};
         }
     }

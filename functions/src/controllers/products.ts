@@ -6,7 +6,7 @@ import Product from '../models/products';
 import { RequestHandler } from "express";
 import multer, { File } from 'multer';
 import Bucket from '../firebase/storage';
-import Logger from '../services/logger';
+// import Logger from '../services/logger';
 import { DB_TABLES } from '../constants/variables';
 
 interface Request extends ExpressRequest {
@@ -92,12 +92,14 @@ class ProductController {
     
 
   async getAllProducts(req: Request, res: Response): Promise<void> {
-      const start = Date.now();
-      const used = process.memoryUsage();
-      console.log(`Memory usage 2: ${JSON.stringify(used)}`);
+    console.log("Inside get products");
+      // const start = Date.now();
+      // const used = process.memoryUsage();
+      // console.log(`Memory usage 2: ${JSON.stringify(used)}`);
       /********************************************************* */
 
-      const product = new Product(new Logger("logs/app.log",), new DB());
+      // const product = new Product(new Logger("logs/app.log",), new DB());
+      const product = new Product( new DB());
       const result = await product.getProducts();
       const { data } = result;
       console.log("RESULT", result);
@@ -109,21 +111,21 @@ class ProductController {
 
       //**REMOVE***************************************************************/
 
-      const end = Date.now();
-      const durationSeconds = (end - start) / 1000;
+      // const end = Date.now();
+      // const durationSeconds = (end - start) / 1000;
       
   
-      const after = process.memoryUsage();
-      console.log(`Memory usage after function execution: ${JSON.stringify(after)}`);
+      // const after = process.memoryUsage();
+      // console.log(`Memory usage after function execution: ${JSON.stringify(after)}`);
 
-      const memoryBefore = used.heapUsed / 1024 / 1024; // Convert bytes to MB
-      const memoryAfter = after.heapUsed / 1024 / 1024; // Convert bytes to MB
-      const memoryUsed = memoryAfter - memoryBefore;
+      // const memoryBefore = used.heapUsed / 1024 / 1024; // Convert bytes to MB
+      // const memoryAfter = after.heapUsed / 1024 / 1024; // Convert bytes to MB
+      // const memoryUsed = memoryAfter - memoryBefore;
 
-      console.log(`Memory used by function: ${memoryUsed.toFixed(2)} MB`);
+      // console.log(`Memory used by function: ${memoryUsed.toFixed(2)} MB`);
 
-      const gbSeconds = (memoryUsed / 1024) * durationSeconds;
-      console.log(`GB-seconds used: ${gbSeconds}`);
+      // const gbSeconds = (memoryUsed / 1024) * durationSeconds;
+      // console.log(`GB-seconds used: ${gbSeconds}`);
 
       //*****************************************************************/
       res.status(result.statusCode).json(response);
@@ -132,7 +134,8 @@ class ProductController {
   async getProdCat(req: Request, res: Response): Promise<void> {
     const id = req.query.id as string;
 
-    const product = new Product(new Logger("logs/app.log",), new DB());
+    // const product = new Product(new Logger("logs/app.log",), new DB());
+    const product = new Product(new DB());
     const result = await product.getProductsByCat(id);
     const { data } = result;
 
@@ -147,7 +150,8 @@ class ProductController {
   async getProductDetails(req: Request, res: Response): Promise<void> {
       const id = req.query.id as string;
 
-      const product = new Product(new Logger("logs/app.log",), new DB());
+      // const product = new Product(new Logger("logs/app.log",), new DB());
+      const product = new Product(new DB());
       const result = await product.getProduct(id);
       const { data } = result;
 
@@ -159,7 +163,8 @@ class ProductController {
 
     const {name, price, qty, desc} = req.body;
       
-    const product = new Product(new Logger("logs/app.log",), new DB());
+    // const product = new Product(new Logger("logs/app.log",), new DB());
+    const product = new Product(new DB());
     const result = await product.editProduct(id, {
       name: name,
       desc: desc,
@@ -173,7 +178,8 @@ class ProductController {
   async deleteProduct(req: Request, res: Response) {
     const id = req.query.id as string;
     
-    const product = new Product(new Logger("logs/app.log",), new DB());
+    // const product = new Product(new Logger("logs/app.log",), new DB());
+    const product = new Product(new DB());
     const result = await product.delete(id);
     res.status(result.statusCode).json(result);
   }
